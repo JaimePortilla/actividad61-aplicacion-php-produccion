@@ -23,32 +23,46 @@ if (!$agente) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar agente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Editar agente #<?php echo $agente['agente_id']; ?></h1>
-    <p><a href="home.php">Volver al listado</a></p>
+<div class="container py-5">
+    <h1 class="mb-4">Editar agente</h1>
+    <p class="text-muted">ID: <?php echo $agente['agente_id']; ?></p>
+    <p><a href="home.php" class="btn btn-secondary mb-3">Volver al listado</a></p>
 
-    <form action="edit_action.php?id=<?php echo $agente['agente_id']; ?>" method="post">
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre" value="<?php echo htmlspecialchars($agente['nombre']); ?>" required><br><br>
-
-        <label>Rol:</label><br>
-        <input type="text" name="rol" value="<?php echo htmlspecialchars($agente['rol']); ?>" required><br><br>
-
-        <label>País:</label><br>
-        <input type="text" name="pais" value="<?php echo htmlspecialchars($agente['pais']); ?>" required><br><br>
-
-        <label>Año de lanzamiento:</label><br>
-        <input type="number" name="anio_lanzamiento" value="<?php echo $agente['anio_lanzamiento']; ?>" required><br><br>
-
-        <label>Dificultad (1-5):</label><br>
-        <input type="number" name="dificultad" value="<?php echo $agente['dificultad']; ?>" required><br><br>
-
-        <label>Ultimate:</label><br>
-        <input type="text" name="ultimate" value="<?php echo htmlspecialchars($agente['ultimate']); ?>" required><br><br>
-
-        <button type="submit">Actualizar</button>
+    <form action="edit_action.php?id=<?php echo $agente['agente_id']; ?>" method="post" class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Nombre:</label>
+            <input type="text" name="nombre" value="<?php echo htmlspecialchars($agente['nombre']); ?>" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Rol:</label>
+            <input type="text" name="rol" value="<?php echo htmlspecialchars($agente['rol']); ?>" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">País:</label>
+            <input type="text" name="pais" value="<?php echo htmlspecialchars($agente['pais']); ?>" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Año de lanzamiento:</label>
+            <input type="number" name="anio_lanzamiento" value="<?php echo htmlspecialchars($agente['anio_lanzamiento']); ?>" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Dificultad (1-5):</label>
+            <input type="number" name="dificultad" value="<?php echo htmlspecialchars($agente['dificultad']); ?>" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Ultimate:</label>
+            <input type="text" name="ultimate" value="<?php echo htmlspecialchars($agente['ultimate']); ?>" class="form-control" required>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
     </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
