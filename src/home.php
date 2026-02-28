@@ -15,7 +15,7 @@ $agentes = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALORANT // Protocolo de Agentes</title>
+    <title>VALORANT / Protocolo de Agentes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
