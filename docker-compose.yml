@@ -1,40 +1,42 @@
-version: '3.8'
-
-services:
-  db:                          # ← Nombre importante: "mariadb" (así lo espera tu código)
-    image: mariadb:10.11
-    container_name: valorant_db
-    env_file: .env
+# La directiva version se considera obsoleta
+# version: '3'
+# version: '3.8'
+# Definimos una aplicación con 2 servicios (microservicios): Nuestra aplicación PHP y MariaDB.
+services: 
+# Servicio 1: aplicación CRUD dockerizada. Utiliza la imagen construida en la fase de desarrollo : lumigv/lamp-crud-app:latest
+  apache-php-crud:
+    image: jaimeportilla/actividad61-aplicacion-crud-php:latest
+    ports: 
+      - 8080:80
     environment:
       - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
       - MARIADB_DATABASE=${MARIADB_DATABASE}
       - MARIADB_USER=${MARIADB_USER}
-      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./sql/database.sql:/docker-entrypoint-initdb.d/database.sql
-    ports:
-      - "3306:3306"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  web:
-    image: jaimeportilla/actividad61-aplicacion-crud-php:latest
-    container_name: valorant_web
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}  
+# Controla el orden inicio de los servicios      
     depends_on:
-      db:
-        condition: service_healthy      # ← Espera a que la BD esté realmente lista
-    env_file: .env
-    volumes:
-      - ./src:/var/www/html
-      - ./conf/000-default.conf:/etc/apache2/sites-available/000-default.conf
-    ports:
-      - "80:80"
-    restart: unless-stopped
+      - db
+# Definimos una política de reinicio del servicio: el contenedor se reinicia cada vez que se detiene por cualquier motivo, excepto cuando se detiene de forma manual (explícita)
+# Recomendable en entornos de producción en un único servidor.
+    restart: always      
 
+# Servicio 2: mariadb 
+  db:
+    image: mariadb
+    ports:
+      - 3306:3306
+    environment: 
+# El acceso a las variables de entorno puede ser de dos maneras: $DATABASE ó ${DATABASE} utilizan el valor de la variable DATABASE definida en el archivo .env
+      environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - LANG=C.UTF-8
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d 
+    restart: always
+# Definimos los volúmenes
 volumes:
-  db_data:
+  mariadb_data:
