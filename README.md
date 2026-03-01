@@ -9,6 +9,30 @@ La temática principal es la gestión de **agentes oficiales de Valorant** y sus
 
 La base de datos se llama `valorant_jaime_portilla` y consta de dos tablas independientes.
 
+```
+conf/
+ └── 000-default.conf
+docker-compose.yml
+Dockerfile
+.env
+sql/
+ └── database.sql
+src/
+ ├── add.php
+ ├── add_action.php
+ ├── config.php
+ ├── delete.php
+ ├── edit.php
+ ├── edit_action.php
+ ├── home.php
+ ├── index.php
+ ├── login.php
+ ├── login_action.php
+ ├── logout.php
+ ├── registro.php
+ └── registro_action.php
+```
+
 ---
 
 ### 1️⃣ Tabla: usuarios
