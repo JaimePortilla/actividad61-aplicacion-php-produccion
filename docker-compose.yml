@@ -1,22 +1,24 @@
-services: 
+version: '3.8'  # Añadido para compatibilidad y mejores prácticas
+
+services:
   apache-php-crud:
     image: jaimeportilla/actividad61-aplicacion-crud-php:latest
-    ports: 
-      - 80:80  # He cambiado 8080 a 80 para que funcione con tu IP de AWS directamente
-    environment:
-      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
-      - MARIADB_DATABASE=${MARIADB_DATABASE}
-      - MARIADB_USER=${MARIADB_USER}
-      - MARIADB_PASSWORD=${MARIADB_PASSWORD}  
+    ports:
+      - 80:80  # Puerto estándar para HTTP
     depends_on:
       - db
-    restart: always      
+    restart: always
+    environment:  # Si tu app PHP necesita variables de conexión, añádelas aquí (ej: desde .env)
+      - DB_HOST=db
+      - DB_NAME=${MARIADB_DATABASE}
+      - DB_USER=${MARIADB_USER}
+      - DB_PASS=${MARIADB_PASSWORD}
 
   db:
-    image: mariadb
+    image: mariadb:10.11  # Versión específica para estabilidad
     ports:
       - 3306:3306
-    environment: # <-- Solo una vez
+    environment:
       - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
       - MARIADB_DATABASE=${MARIADB_DATABASE}
       - MARIADB_USER=${MARIADB_USER}
@@ -24,9 +26,13 @@ services:
       - LANG=C.UTF-8
     volumes:
       - mariadb_data:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d 
+      - ./sql:/docker-entrypoint-initdb.d  # Para inicializar con tu database.sql
     restart: always
+    healthcheck:  # Añadido para esperar a que la BD esté lista
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mariadb_data:
-  
