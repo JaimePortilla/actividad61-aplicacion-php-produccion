@@ -1,7 +1,6 @@
 services: 
   apache-php-crud:
     image: jaimeportilla/actividad61-aplicacion-crud-php:latest
-    container_name: valorant_web
     ports: 
       - 80:80  # He cambiado 8080 a 80 para que funcione con tu IP de AWS directamente
     environment:
@@ -15,7 +14,6 @@ services:
 
   db:
     image: mariadb
-    container_name: valorant_db
     ports:
       - 3306:3306
     environment: # <-- Solo una vez
