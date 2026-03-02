@@ -5,9 +5,16 @@ require 'config.php';
 $nombre   = trim($_POST['nombre_usuario'] ?? '');
 $correo   = trim($_POST['correo'] ?? '');
 $password = $_POST['contraseña'] ?? '';
+ $password2 = $_POST['contraseña2'] ?? '';
 
-if ($nombre === '' || $correo === '' || $password === '') {
+if ($nombre === '' || $correo === '' || $password === '' || $password2 === '') {
     $_SESSION['registro_error'] = 'Todos los campos son obligatorios.';
+    header('Location: registro.php');
+    exit;
+}
+
+if ($password !== $password2) {
+    $_SESSION['registro_error'] = 'Las contraseñas no coinciden.';
     header('Location: registro.php');
     exit;
 }

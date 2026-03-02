@@ -147,7 +147,7 @@ if (isset($_SESSION['username'])) {
     
     <header>
         <span class="subtitle">Secure Connection // Database</span>
-        <h1 class="glitch-title">VALORANT<br>AG!!NTS</h1>
+        <h1 class="glitch-title">VALORANT<br>AGENTES</h1>
     </header>
 
     <div class="mt-4">
