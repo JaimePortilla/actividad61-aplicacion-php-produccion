@@ -3,12 +3,13 @@ name: CI/CD - Build, Push & Deploy CRUD App
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-push:
     name: Build & Push Docker Image
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout del código
         uses: actions/checkout@v4
@@ -25,7 +26,7 @@ jobs:
 
       - name: Subir imagen a Docker Hub (PUSH)
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/lamp-crud-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/lamp-crud-app:latest
 
   deploy:
     name: Deploy to AWS Server
@@ -36,12 +37,12 @@ jobs:
       - name: Despliegue en servidor de producción
         uses: appleboy/ssh-action@v1.2.1
         with:
-          host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ~/actividad61-aplicacion-php-produccion
-            docker compose down
-            docker compose pull
-            docker compose up -d
+            cd ~/repositorios/actividad61-aplicacion-php-produccion
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d --force-recreate
